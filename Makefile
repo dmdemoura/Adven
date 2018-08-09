@@ -20,12 +20,16 @@ include $(DEVKITARM)/gba_rules
 # the makefile is found
 #
 #---------------------------------------------------------------------------------
-TARGET		:= $(notdir $(CURDIR))
+TARGET		:= libadven
 BUILD		:= build
+LIB			:= lib
 SOURCES		:= source source/Hardware
-INCLUDES	:= include
-DATA		:= data
+INCLUDES	:= include include/Hardware
+DATA		:=
 MUSIC		:=
+RELEASEDIR	:= release
+
+VERSION		:= 1.0.0
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -66,7 +70,7 @@ LIBDIRS	:=	$(LIBGBA) $(LIBTONC)
 ifneq ($(BUILDDIR), $(CURDIR))
 #---------------------------------------------------------------------------------
  
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
+export OUTPUT	:=	$(CURDIR)/$(LIB)/$(TARGET)
  
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 					$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
@@ -114,28 +118,30 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 .PHONY: $(BUILD) clean
- 
+
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
+	@[ -d $(LIB) ] || mkdir -p $(LIB)
 	@$(MAKE) BUILDDIR=`cd $(BUILD) && pwd` --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba $(TARGET).gbfs $(TARGET).gbfs.gba 
- 
+	@rm -fr $(BUILD) $(LIB) $(TARGET).elf $(TARGET).gba $(TARGET).gbfs $(TARGET).gbfs.gba 
+
+release: $(BUILD)
+	@mkdir -p -v $(RELEASEDIR)/$(VERSION)/include/adven
+	@mkdir -p -v $(RELEASEDIR)/$(VERSION)/lib
+	@echo Copying $(OUTPUT).a to $(RELEASEDIR)/$(VERSION)/
+	@cp -v -i $(OUTPUT).a $(RELEASEDIR)/$(VERSION)/lib/
+	@cp -v -r -i include/* -t $(RELEASEDIR)/$(VERSION)/include/adven/
+
 #---------------------------------------------------------------------------------
 else
-#---------------------------------------------------------------------------------
+#------------------------------OUTPUT---------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-
-#$(OUTPUT).gbfs.gba	:	$(OUTPUT).gba $(OUTPUT).gbfs
-
-#$(OUTPUT).gba	:	$(OUTPUT).elf
-
-#$(OUTPUT).elf	:	$(OFILES)
 
 $(OUTPUT).a	:	$(OFILES)
 
