@@ -29,7 +29,7 @@ DATA		:=
 MUSIC		:=
 RELEASEDIR	:= release
 
-VERSION		:= 1.0.0
+VERSION		:= 1.0.1
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -136,6 +136,9 @@ release: $(BUILD)
 	@echo Copying $(OUTPUT).a to $(RELEASEDIR)/$(VERSION)/
 	@cp -v -i $(OUTPUT).a $(RELEASEDIR)/$(VERSION)/lib/
 	@cp -v -r -i include/* -t $(RELEASEDIR)/$(VERSION)/include/adven/
+
+release-clean:
+	@rm -v -r $(RELEASEDIR)/$(VERSION)
 
 #---------------------------------------------------------------------------------
 else

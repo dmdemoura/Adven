@@ -11,7 +11,7 @@ class Component : public IUpdatable
 protected:
     GameObject& gameObject;
 public:
-    Component(GameObject& gameObject) : gameObject(gameObject) {}
+    Component(GameObject& gameObject);
     virtual ~Component();
     virtual void Start() override = 0;
     virtual void VDrawUpdate() override = 0;
