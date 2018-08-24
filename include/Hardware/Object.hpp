@@ -26,8 +26,8 @@ private:
     {
         PositionX      = 0b0000000111111111,
         AffineIndex    = 0b0011111000000000,
-        VerticalFlip   = 0b0001000000000000,
-        HorizontalFlip = 0b0010000000000000,
+        HorizontalFlip = 0b0001000000000000,
+        VerticalFlip   = 0b0010000000000000,
         SpriteSize     = 0b1100000000000000
     };
     enum class Attr2Masks
@@ -49,15 +49,15 @@ private:
     {
         PositionX      = 0,
         AffineIndex    = 9,
-        VerticalFlip   = 12,
-        HorizontalFlip = 13,
+        HorizontalFlip = 12,
+        VerticalFlip   = 13,
         SpriteSize     = 14
     };
     enum class Attr2Offsets
     {
         BaseTile       = 0,
         Priority       = 10,
-        PaletteBank    = 13
+        PaletteBank    = 12
     };
 public:
     enum class ObjectMode
@@ -73,12 +73,12 @@ public:
         AlphaBlending,
         Window,
     };
-    enum class ColorMode
+    enum class ColorMode : unsigned char
     {
         color4bit,
-        color8bitGraphicsMode
+        color8bit
     };
-    enum class SpriteSize
+    enum class SpriteSize : unsigned char
     {
         square8x8   = 0b0000,
         square16x16 = 0b0001,
