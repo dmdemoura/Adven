@@ -28,3 +28,14 @@ void GameObject::VBlankUpdate()
         components[i]->VBlankUpdate();
     }
 }
+Vector GameObject::GetWorldPosition()
+{
+    Vector worldPos = localPosition;
+    
+    for (GameObject* object = parent; object != nullptr; object=object->parent)
+    {
+        worldPos += object->localPosition;
+    }
+
+    return worldPos;
+}

@@ -31,13 +31,12 @@ public:
             T* component = dynamic_cast<T*>(components[i]);
             if (component != nullptr)
             {
-                VBAPrint("found\n");
                 return component;
             }
         }
-        VBAPrint("not found\n");
         return nullptr;
     }
+    Vector GetWorldPosition();
 };
 
 #endif
