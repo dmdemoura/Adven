@@ -4,11 +4,12 @@
 #include "Component.hpp"
 #include "Hardware/Object.hpp"
 #include "Vector.hpp"
+#include "Sprite.hpp"
 
 class ObjectRenderer : public Component, public Object
 {
 public:
-    ObjectRenderer(GameObject& gameObject);
+    ObjectRenderer(GameObject& gameObject, Sprite* sprite = nullptr);
     virtual ~ObjectRenderer();
     virtual void Start() override;
     virtual void VDrawUpdate() override;

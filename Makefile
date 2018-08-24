@@ -29,14 +29,14 @@ DATA		:=
 MUSIC		:=
 RELEASEDIR	:= release
 
-VERSION		:= 1.0.1
+VERSION		:= 1.0.3
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork
 
-CFLAGS	:=  -g -Wall -O3\
+CFLAGS	:=  -g -Wall -O0\
 		-mcpu=arm7tdmi -mtune=arm7tdmi\
  		-fomit-frame-pointer\
 		-ffast-math \
@@ -44,7 +44,7 @@ CFLAGS	:=  -g -Wall -O3\
 
 CFLAGS	+=	$(INCLUDE)
 
-CXXFLAGS	:=	$(CFLAGS) -fno-exceptions
+CXXFLAGS	:=	$(CFLAGS) -fno-exceptions --std=c++17
 
 ASFLAGS	:=	-g $(ARCH) $(DEFINES)
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map)
@@ -52,14 +52,14 @@ LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lmm -lgba -ltonc
+LIBS	:= -lmm -lgba -ltonc -lgbfs
  
  
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBGBA) $(LIBTONC)
+LIBDIRS	:=	$(LIBGBA) $(LIBTONC) $(LIBGBFS)
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
