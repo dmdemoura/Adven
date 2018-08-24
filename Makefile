@@ -117,7 +117,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
  
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: $(BUILD) clean
+.PHONY: $(BUILD) clean release release-clean
 
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -131,14 +131,13 @@ clean:
 	@rm -fr $(BUILD) $(LIB) $(TARGET).elf $(TARGET).gba $(TARGET).gbfs $(TARGET).gbfs.gba 
 
 release: $(BUILD)
+	@rm -v -r $(RELEASEDIR)/$(VERSION)
 	@mkdir -p -v $(RELEASEDIR)/$(VERSION)/include/adven
 	@mkdir -p -v $(RELEASEDIR)/$(VERSION)/lib
 	@echo Copying $(OUTPUT).a to $(RELEASEDIR)/$(VERSION)/
 	@cp -v -i $(OUTPUT).a $(RELEASEDIR)/$(VERSION)/lib/
 	@cp -v -r -i include/* -t $(RELEASEDIR)/$(VERSION)/include/adven/
 
-release-clean:
-	@rm -v -r $(RELEASEDIR)/$(VERSION)
 
 #---------------------------------------------------------------------------------
 else

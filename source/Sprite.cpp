@@ -141,9 +141,11 @@ bool Sprite::LoadToVRAM()
         
         if (space)
         {
-            tonccpy(space, imageData, blockSize);
+            int frameOffset = i * blockSize;
+            void* frameData = (char*) imageData + frameOffset;
+            tonccpy(space, frameData, blockSize);
 
-            int tileID = ((int) space - (int) ObjectVRAM) >> 5;
+            int tileID = ((int) space - (int) ObjectVRAM) / 32;
             vramBaseTiles.push_back(tileID);
         }
         else
