@@ -68,7 +68,7 @@ public: //Static methods
 private: //Variables
     const Header* header;
     const void* imageData;
-    std::vector<int> vramBaseTiles;
+    int* vramBaseTiles;
 public: //Methods
     /**
      * Creates a Sprite from a GBFS object.

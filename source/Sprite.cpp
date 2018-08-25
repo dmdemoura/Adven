@@ -135,18 +135,19 @@ bool Sprite::LoadToVRAM()
     if (header->colorMode == Object::ColorMode::color4bit)
         blockSize = blockSize >> 1;
 
+    vramBaseTiles = new int[header->frameCount];
     for (int i = 0; i < header->frameCount; i++)
     {
         void* space = AllocSpace(blockSize);
         
         if (space)
-        {
+        {    
             int frameOffset = i * blockSize;
             void* frameData = (char*) imageData + frameOffset;
             tonccpy(space, frameData, blockSize);
 
-            int tileID = ((int) space - (int) ObjectVRAM) / 32;
-            vramBaseTiles.push_back(tileID);
+            int tileID = ((int) space - (int) ObjectVRAM) >> 5;
+            vramBaseTiles[i] = tileID;
         }
         else
             return false;
