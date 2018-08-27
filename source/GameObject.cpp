@@ -1,5 +1,4 @@
 #include "GameObject.hpp"
-#include "Hardware/VBAPrint.hpp"
 
 GameObject::GameObject(GameObject* parent) : parent(parent), localPosition({0,0}) {}
 GameObject::GameObject(GameObject* parent, Vector localPosition) : parent(parent), localPosition(localPosition) {}

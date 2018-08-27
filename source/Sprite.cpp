@@ -1,6 +1,5 @@
 #include "Sprite.hpp"
-#include "Hardware/VBAPrint.hpp"
-#include <cstring>
+#include "Debug.hpp"
 
 Charblock (* const Sprite::ObjectVRAM)[2] = (Charblock(*)[2]) 0x06010000;
 Sprite::FreeBlock* Sprite::firstBlock = nullptr;
@@ -125,7 +124,7 @@ Sprite::Sprite(const void* sprite)
     if (valid)
         imageData = (char*) sprite + sizeof(Header);
     else
-        VBAPrint("Invalid sprite header");
+        Debug::Error("Invalid sprite header");
 }
 bool Sprite::LoadToVRAM()
 {

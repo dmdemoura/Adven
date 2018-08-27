@@ -1,5 +1,4 @@
 #include "ObjectRenderer.hpp"
-#include "Hardware/VBAPrint.hpp"
 
 ObjectRenderer::ObjectRenderer(GameObject& gameObject, Sprite* sprite) : Component(gameObject)
 {

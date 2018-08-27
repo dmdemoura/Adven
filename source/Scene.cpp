@@ -1,5 +1,4 @@
 #include "Scene.hpp"
-#include "Hardware/VBAPrint.hpp"
 
 Scene* Scene::currentScene = nullptr;
 

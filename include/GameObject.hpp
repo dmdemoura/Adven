@@ -6,7 +6,6 @@
 #include "Vector.hpp"
 #include "IUpdatable.hpp"
 #include <typeinfo>
-#include "Hardware/VBAPrint.hpp"
 
 class Component;
 
