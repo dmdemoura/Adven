@@ -29,7 +29,7 @@ DATA		:=
 MUSIC		:=
 RELEASEDIR	:= release
 
-VERSION		:= 1.0.3
+VERSION		:= 1.0.4
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -39,7 +39,7 @@ ARCH	:=	-mthumb -mthumb-interwork
 CFLAGS	:=  -g -Wall -O0\
 		-mcpu=arm7tdmi -mtune=arm7tdmi\
  		-fomit-frame-pointer\
-		-ffast-math \
+		-ffast-math -DNO_DEBUG\
 		$(ARCH)
 
 CFLAGS	+=	$(INCLUDE)
@@ -130,6 +130,7 @@ clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(LIB) $(TARGET).elf $(TARGET).gba $(TARGET).gbfs $(TARGET).gbfs.gba 
 
+#---------------------------------------------------------------------------------
 release: $(BUILD)
 	@rm -v -r $(RELEASEDIR)/$(VERSION)
 	@mkdir -p -v $(RELEASEDIR)/$(VERSION)/include/adven
@@ -137,7 +138,6 @@ release: $(BUILD)
 	@echo Copying $(OUTPUT).a to $(RELEASEDIR)/$(VERSION)/
 	@cp -v -i $(OUTPUT).a $(RELEASEDIR)/$(VERSION)/lib/
 	@cp -v -r -i include/* -t $(RELEASEDIR)/$(VERSION)/include/adven/
-
 
 #---------------------------------------------------------------------------------
 else

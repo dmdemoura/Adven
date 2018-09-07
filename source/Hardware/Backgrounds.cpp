@@ -2,47 +2,43 @@
 #include "HwUtils.hpp"
 #include <tonc.h>
 
-volatile short (* const Backgrounds::backgroundControlRegisters)[4] = (volatile short (*)[4]) 0x04000008;
-volatile short (* const Backgrounds::backgroundOffsetRegisters)[8] = (volatile short (*)[8]) 0x04000010;
+volatile short (* const Backgrounds::backgroundControlRegisters)[BgControlRegisterCount] = (volatile short (*)[BgControlRegisterCount]) 0x04000008;
+volatile short (* const Backgrounds::backgroundOffsetRegisters)[BgOffsetRegisterCount] = (volatile short (*)[BgOffsetRegisterCount]) 0x04000010;
 
-short Backgrounds::backgroundControlBuffer[4] = {};
-short Backgrounds::backgroundOffsetBuffer[8] = {};
-
-void Backgrounds::Render()
+void Backgrounds::Clear()
 {
-    tonccpy((void *) backgroundControlRegisters, backgroundControlBuffer, sizeof(unsigned short) * 4);
-    memcpy16((void *) backgroundOffsetRegisters, backgroundOffsetBuffer, sizeof(unsigned short) * 4);
+    toncset((void *) backgroundControlRegisters, 0, BgControlRegisterCount + BgOffsetRegisterCount);
 }
 void Backgrounds::SetPriority(int backgroundIndex, int priority)
 {
-    HwUtils::SetBit(backgroundControlBuffer[backgroundIndex], priority, BitOffsets::Priority, BitMasks::Priority);
+    HwUtils::SetBit((*backgroundControlRegisters)[backgroundIndex], priority, BitOffsets::Priority, BitMasks::Priority);
 }
 void Backgrounds::SetBaseCharBlock(int backgroundIndex, int baseCharBlock)
 {
-    HwUtils::SetBit(backgroundControlBuffer[backgroundIndex], baseCharBlock, BitOffsets::BaseCharBlock, BitMasks::BaseCharBlock);
+    HwUtils::SetBit((*backgroundControlRegisters)[backgroundIndex], baseCharBlock, BitOffsets::BaseCharBlock, BitMasks::BaseCharBlock);
 }
 void Backgrounds::SetIsMosaic(int backgroundIndex, bool isMosaic)
 {
-    HwUtils::SetBit(backgroundControlBuffer[backgroundIndex], isMosaic, BitOffsets::IsMosaic, BitMasks::IsMosaic);
+    HwUtils::SetBit((*backgroundControlRegisters)[backgroundIndex], isMosaic, BitOffsets::IsMosaic, BitMasks::IsMosaic);
 }
 void Backgrounds::SetColorMode(int backgroundIndex, Backgrounds::ColorMode colorMode)
 {
-    HwUtils::SetBit(backgroundControlBuffer[backgroundIndex], colorMode, BitOffsets::ColorMode, BitMasks::ColorMode);
+    HwUtils::SetBit((*backgroundControlRegisters)[backgroundIndex], colorMode, BitOffsets::ColorMode, BitMasks::ColorMode);
 }
 void Backgrounds::SetBaseScreenBlock(int backgroundIndex, int baseScreenBlock)
 {
-    HwUtils::SetBit(backgroundControlBuffer[backgroundIndex], baseScreenBlock, BitOffsets::BaseScreenBlock, BitMasks::BaseScreenBlock);
+    HwUtils::SetBit((*backgroundControlRegisters)[backgroundIndex], baseScreenBlock, BitOffsets::BaseScreenBlock, BitMasks::BaseScreenBlock);
 }
 void Backgrounds::SetAffineWrap(int backgroundIndex, bool affineWrap)
 {
-    HwUtils::SetBit(backgroundControlBuffer[backgroundIndex], affineWrap, BitOffsets::AffineWrap, BitMasks::AffineWrap);
+    HwUtils::SetBit((*backgroundControlRegisters)[backgroundIndex], affineWrap, BitOffsets::AffineWrap, BitMasks::AffineWrap);
 }
 void Backgrounds::SetBackgroundSize(int backgroundIndex, Backgrounds::BackgroundSize backgroundSize)
 {
-    HwUtils::SetBit(backgroundControlBuffer[backgroundIndex], backgroundSize, BitOffsets::BackgroundSize, BitMasks::BackgroundSize);
+    HwUtils::SetBit((*backgroundControlRegisters)[backgroundIndex], backgroundSize, BitOffsets::BackgroundSize, BitMasks::BackgroundSize);
 }
 void Backgrounds::SetOffset(int backgroundIndex, Vector offset)
 {
-    HwUtils::SetBit(backgroundOffsetBuffer[backgroundIndex], offset.x, BitOffsets::BackgroundOffset, BitMasks::BackgroundOffset);
-    HwUtils::SetBit(backgroundOffsetBuffer[backgroundIndex + 1], offset.y, BitOffsets::BackgroundOffset, BitMasks::BackgroundOffset);
+    HwUtils::SetBit((*backgroundOffsetRegisters)[backgroundIndex * 2], offset.x, BitOffsets::BackgroundOffset, BitMasks::BackgroundOffset);
+    HwUtils::SetBit((*backgroundOffsetRegisters)[backgroundIndex * 2 + 1], offset.y, BitOffsets::BackgroundOffset, BitMasks::BackgroundOffset);
 }
