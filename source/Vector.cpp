@@ -15,6 +15,10 @@ Vector Vector::operator-=(Vector a)
     y -= a.y;
     return *this;
 }
+Vector Vector::operator-()
+{
+    return {-x, -y};
+}
 Vector operator+(Vector a, Vector b)
 {
     return {a.x + b.x, a.y + b.y};

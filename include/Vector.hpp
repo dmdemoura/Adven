@@ -10,6 +10,7 @@ public:
     Vector(int x, int y);
     Vector operator+=(Vector a);
     Vector operator-=(Vector a);
+    Vector operator-();
 };
 
 Vector operator+(Vector a, Vector b);
