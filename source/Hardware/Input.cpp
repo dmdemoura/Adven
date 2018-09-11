@@ -20,11 +20,11 @@ bool Input::GetKeyHeld(Key key)
 }
 bool Input::GetKeyDown(Key key)
 {
-    return ~GetKeyState(key, KeyInputPrevious) && GetKeyState(key, KeyInputCurrent);
+    return !GetKeyState(key, KeyInputPrevious) && GetKeyState(key, KeyInputCurrent);
 }
 bool Input::GetKeyUp(Key key)
 {
-    return GetKeyState(key, KeyInputPrevious) && ~GetKeyState(key, KeyInputCurrent);
+    return GetKeyState(key, KeyInputPrevious) && !GetKeyState(key, KeyInputCurrent);
 }
 Input::Tribool Input::GetTribool(Direction direction)
 {
