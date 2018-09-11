@@ -1,4 +1,5 @@
 #include "ObjectRenderer.hpp"
+#include "Camera.hpp"
 
 ObjectRenderer::ObjectRenderer(Sprite* sprite)
 {
@@ -14,5 +15,5 @@ void ObjectRenderer::Start(){}
 void ObjectRenderer::VDrawUpdate(){}
 void ObjectRenderer::VBlankUpdate()
 {
-    SetPosition(gameObject->GetWorldPosition());
+    SetPosition(gameObject->GetWorldPosition() - Camera::GetPosition());
 }
