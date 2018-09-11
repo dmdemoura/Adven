@@ -17,5 +17,7 @@ Vector operator+(Vector a, Vector b);
 Vector operator-(Vector a, Vector b);
 Vector operator*(Vector a, int b);
 Vector operator*(int a, Vector b);
+bool operator==(Vector a, Vector b);
+bool operator!=(Vector a, Vector b);
 
 #endif

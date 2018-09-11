@@ -35,3 +35,11 @@ Vector operator*(int a, Vector b)
 {
     return b * a;
 }
+bool operator==(Vector a, Vector b)
+{
+    return a.x == b.x && a.y == b.y;
+}
+bool operator!=(Vector a, Vector b)
+{
+    return !(a == b);
+}
