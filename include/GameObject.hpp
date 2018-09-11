@@ -1,41 +1,62 @@
 #ifndef DM_GAMEOBJECT
 #define DM_GAMEOBJECT
 
-#include <vector>
 #include "Component.hpp"
 #include "Vector.hpp"
 #include "IUpdatable.hpp"
 #include <typeinfo>
+#include <functional>
+#include <memory>
+#include <list>
 
-class Component;
 
 class GameObject : public IUpdatable
 {
-public:
+    friend class Scene;
+private:
     GameObject* parent;
-    Vector localPosition;
-    std::vector<Component*> components;
+    std::list<GameObject> childs;
+    std::list<std::unique_ptr<Component>> components;
 public:
-    GameObject(GameObject* parent);
-    GameObject(GameObject* parent, Vector localPosition);
-    virtual ~GameObject();
+    Vector localPosition;
+private:
     void Start() override;
     void VDrawUpdate() override;
     void VBlankUpdate() override;
-    template <typename T>
-    T* GetComponent()
-    {
-        for (unsigned int i = 0; i < components.size(); i++)
-        {
-            T* component = dynamic_cast<T*>(components[i]);
-            if (component != nullptr)
-            {
-                return component;
-            }
-        }
-        return nullptr;
-    }
+public:
+    GameObject(GameObject* parent);
+    GameObject(GameObject* parent, Vector localPosition);
+    GameObject* GetParent(); 
     Vector GetWorldPosition();
+    template<typename T, typename ... Args>
+    T& AddComponent(Args&&... args);
+    template<typename T>
+    T* GetComponent();
+    void RemoveComponent(const Component& component);
+    void RemoveComponent(std::function<bool(const Component&)> compare);
 };
+
+template<typename T, typename... Args>
+T& GameObject::AddComponent(Args&&... args)
+{
+    components.push_front(std::make_unique<T>(std::forward<Args>(args)...));
+
+    components.front()->gameObject = this;
+
+    return *reinterpret_cast<T*>(components.front().get());
+}
+template<typename T>
+T* GameObject::GetComponent()
+{
+    for (auto& c : components)
+    {
+        T* component = dynamic_cast<T*>(c.get());
+        if (component != nullptr)
+        {
+            return component;
+        }
+    }
+    return nullptr;
+}
 
 #endif

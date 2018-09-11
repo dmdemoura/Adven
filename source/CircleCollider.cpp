@@ -3,13 +3,13 @@
 
 bool CircleCollider::CheckCollision(const CircleCollider& a, const CircleCollider& b)
 {
-    int xDistance = a.gameObject.GetWorldPosition().x - b.gameObject.GetWorldPosition().x;
-    int yDistance = a.gameObject.GetWorldPosition().y - b.gameObject.GetWorldPosition().y;
+    int xDistance = a.gameObject->GetWorldPosition().x - b.gameObject->GetWorldPosition().x;
+    int yDistance = a.gameObject->GetWorldPosition().y - b.gameObject->GetWorldPosition().y;
 
     return a.squareRadius + b.squareRadius >= Math::Power(xDistance, 2) + Math::Power(yDistance, 2);
 }
 
-CircleCollider::CircleCollider(GameObject& parent, int squareRadius) : Collider(parent), squareRadius(squareRadius)
+CircleCollider::CircleCollider(int squareRadius) : squareRadius(squareRadius)
 {
     Register(*this);
 }

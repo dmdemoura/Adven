@@ -5,16 +5,18 @@
 
 class CircleCollider : public Collider
 {
-private:
-    int squareRadius;
+    friend class GameObject;
 public:
     static bool CheckCollision(const CircleCollider& a, const CircleCollider& b);
-public:
-    CircleCollider(GameObject& parent, int squareRadius);
-    virtual ~CircleCollider();
+private:
+    int squareRadius;
+private:
     virtual void Start() override;
     virtual void VDrawUpdate() override;
     virtual void VBlankUpdate() override;
+public:
+    CircleCollider(int squareRadius);
+    virtual ~CircleCollider();
 };
 
 #endif

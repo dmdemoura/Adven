@@ -7,6 +7,7 @@
 
 class Collider : public Component
 {
+    friend class GameObject;
 private: //Static variables
     static std::forward_list<Collider*> colliders;
 protected: //Static methods
@@ -15,8 +16,6 @@ protected: //Static methods
 public: //Static methods
     static void Update();
     static bool CheckCollision(const Collider& a, const Collider& b);
-public: //Instance methods
-    Collider(GameObject& parent);
 };
 
 #endif

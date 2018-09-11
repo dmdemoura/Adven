@@ -25,20 +25,21 @@ void Collider::Update()
         {
             if (CheckCollision(*current, *last))
             {
-                Moveable* mc = current->gameObject.GetComponent<Moveable>();
+                Moveable* mc = current->gameObject->GetComponent<Moveable>();
                 if (mc)
                 {
-                    current->gameObject.localPosition -= mc->speed;
+                    current->gameObject->localPosition -= mc->speed;
                     mc->speed = -mc->speed;
                 }
 
-                Moveable* ml = last->gameObject.GetComponent<Moveable>();
+                Moveable* ml = last->gameObject->GetComponent<Moveable>();
                 if (ml)
                 {
-                    last->gameObject.localPosition -= ml->speed;
+                    last->gameObject->localPosition -= ml->speed;
                     ml->speed = -mc->speed;
                 }
             }
+            last = current;
         }
     );
 }
@@ -54,7 +55,3 @@ bool Collider::CheckCollision(const Collider& a, const Collider& b)
         return false;
     }
 }
-/*
-    Instance methods
-*/
-Collider::Collider(GameObject& parent) : Component(parent) {} 

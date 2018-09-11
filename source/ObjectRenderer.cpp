@@ -1,6 +1,6 @@
 #include "ObjectRenderer.hpp"
 
-ObjectRenderer::ObjectRenderer(GameObject& gameObject, Sprite* sprite) : Component(gameObject)
+ObjectRenderer::ObjectRenderer(Sprite* sprite)
 {
     if (sprite)
     {
@@ -14,5 +14,5 @@ void ObjectRenderer::Start(){}
 void ObjectRenderer::VDrawUpdate(){}
 void ObjectRenderer::VBlankUpdate()
 {
-    SetPosition(gameObject.GetWorldPosition());
+    SetPosition(gameObject->GetWorldPosition());
 }

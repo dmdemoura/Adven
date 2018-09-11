@@ -1,32 +1,44 @@
 #include "Scene.hpp"
+#include <algorithm>
 
 Scene* Scene::currentScene = nullptr;
 
-Scene::~Scene()
-{
-    for (unsigned int i = 0; i < gameObjects.size(); i++)
-    {
-        delete gameObjects[i];
-    }
-}
 void Scene::Start()
 {
-    for (unsigned int i = 0; i < gameObjects.size(); i++)
+    for (GameObject& gameObject : gameObjects)
     {
-        gameObjects[i]->Start();
+        gameObject.Start();
     }
 }
 void Scene::VDrawUpdate()
 {
-    for (unsigned int i = 0; i < gameObjects.size(); i++)
+    for (GameObject& gameObject : gameObjects)
     {
-        gameObjects[i]->VDrawUpdate();
+        gameObject.VDrawUpdate();
     }
 }
 void Scene::VBlankUpdate()
 {
-    for (unsigned int i = 0; i < gameObjects.size(); i++)
+    for (GameObject& gameObject : gameObjects)
     {
-        gameObjects[i]->VBlankUpdate();
+        gameObject.VBlankUpdate();
     }
 } 
+GameObject& Scene::AddGameObject(GameObject&& gameObject)
+{
+    gameObjects.push_front(std::move(gameObject));
+    return gameObjects.front();
+}
+void Scene::RemoveGameObject(const GameObject& gameObject)
+{
+    auto compare = [&gameObject](const GameObject& gameObject2)
+    {
+         return &gameObject == &gameObject2; 
+    };
+    RemoveGameObject(compare);
+}
+void Scene::RemoveGameObject(std::function<bool(const GameObject& gameObject)> compare)
+{
+    auto i = std::find_if(gameObjects.cbegin(), gameObjects.cend(), compare);
+    gameObjects.erase(i);
+}

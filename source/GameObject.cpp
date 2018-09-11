@@ -1,31 +1,26 @@
 #include "GameObject.hpp"
+#include <algorithm>
 
 GameObject::GameObject(GameObject* parent) : parent(parent), localPosition({0,0}) {}
 GameObject::GameObject(GameObject* parent, Vector localPosition) : parent(parent), localPosition(localPosition) {}
-GameObject::~GameObject()
-{
-    for (unsigned int i = 0; i < components.size(); i++)
-    {
-        delete components[i];
-    }
-}
 void GameObject::Start()
 {
-    for (unsigned int i = 0; i < components.size(); i++){
-        components[i]->Start();
-    }
+    for (auto& component : components)
+        component->Start();
 }
 void GameObject::VDrawUpdate()
 {
-    for (unsigned int i = 0; i < components.size(); i++){
-        components[i]->VDrawUpdate();
-    }
+    for (auto& component : components)
+        component->VDrawUpdate();
 }
 void GameObject::VBlankUpdate()
 {
-    for (unsigned int i = 0; i < components.size(); i++){
-        components[i]->VBlankUpdate();
-    }
+    for (auto& component : components)
+        component->VBlankUpdate();
+}
+GameObject* GameObject::GetParent()
+{
+    return parent;
 }
 Vector GameObject::GetWorldPosition()
 {
@@ -37,4 +32,17 @@ Vector GameObject::GetWorldPosition()
     }
 
     return worldPos;
+}
+void GameObject::RemoveComponent(const Component& component)
+{
+    auto compare = [&component](const Component& component2)
+    {
+         return &component == &component2; 
+    };
+    RemoveComponent(compare);
+}
+void GameObject::RemoveComponent(std::function<bool(const Component&)> compare)
+{
+    auto i = std::find_if(components.cbegin(), components.cend(), [&compare](const std::unique_ptr<Component>& component) { return compare(*component);});
+    components.erase(i);
 }

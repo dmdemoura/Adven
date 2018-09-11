@@ -15,14 +15,14 @@ bool RectCollider::CheckCollision(const RectCollider& a, const RectCollider& b)
 
 Vector RectCollider::GetMinPos() const
 {
-    return minOffset + gameObject.GetWorldPosition();
+    return minOffset + gameObject->GetWorldPosition();
 }
 Vector RectCollider::GetMaxPos() const
 {
-    return maxOffset + gameObject.GetWorldPosition();
+    return maxOffset + gameObject->GetWorldPosition();
 }
 
-RectCollider::RectCollider(GameObject& parent, Vector minOffset, Vector maxOffset) : Collider(parent), minOffset(minOffset), maxOffset(maxOffset)
+RectCollider::RectCollider(Vector minOffset, Vector maxOffset) : minOffset(minOffset), maxOffset(maxOffset)
 {
     Register(*this);
 }

@@ -5,6 +5,7 @@
 
 class RectCollider : public Collider
 {
+    friend class GameObject;
 private:
     Vector minOffset;
     Vector maxOffset;
@@ -13,12 +14,12 @@ public:
 private:
     Vector GetMinPos() const;
     Vector GetMaxPos() const;
-public:
-    RectCollider(GameObject& parent, Vector minOffset, Vector maxOffset);
-    virtual ~RectCollider();
     virtual void Start() override;
     virtual void VDrawUpdate() override;
     virtual void VBlankUpdate() override;
+public:
+    RectCollider(Vector minOffset, Vector maxOffset);
+    virtual ~RectCollider();
 };
 
 #endif

@@ -2,15 +2,17 @@
 #define DM_MOVEABLE
 
 #include "Component.hpp"
+#include "GameObject.hpp"
 
 class Moveable : public Component
 {
-public:
-    Vector speed;
-    Moveable(GameObject& gameObject);
+    friend class GameObject;
+private:
     virtual void Start() override;
     virtual void VDrawUpdate() override;
     virtual void VBlankUpdate() override;
+public:
+    Vector speed;
 };
 
 #endif
