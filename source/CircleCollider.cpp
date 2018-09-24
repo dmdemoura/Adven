@@ -1,6 +1,8 @@
 #include "CircleCollider.hpp"
 #include "Math.hpp"
 
+using namespace Adven;
+
 bool CircleCollider::CheckCollision(const CircleCollider& a, const CircleCollider& b)
 {
     int xDistance = a.gameObject->GetWorldPosition().x - b.gameObject->GetWorldPosition().x;

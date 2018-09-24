@@ -23,20 +23,16 @@ include $(DEVKITARM)/gba_rules
 TARGET		:= libadven
 BUILD		:= build
 LIB			:= lib
-SOURCES		:= source source/Hardware
-INCLUDES	:= include include/Hardware
-DATA		:=
-MUSIC		:=
-RELEASEDIR	:= release
-
-VERSION		:= 1.0.4
+SOURCES		:= source
+INCLUDES	:= include/adven
+LIBADVENCORE := /home/gabriel/Files/Code/GBA/AdvenCore
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork
 
-CFLAGS	:=  -g -Wall -O0\
+CFLAGS	:=  -g -Wall -O3\
 		-mcpu=arm7tdmi -mtune=arm7tdmi\
  		-fomit-frame-pointer\
 		-ffast-math -DNO_DEBUG\
@@ -59,7 +55,7 @@ LIBS	:= -lmm -lgba -ltonc -lgbfs
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBGBA) $(LIBTONC) $(LIBGBFS)
+LIBDIRS	:=	$(LIBGBA) $(LIBTONC) $(LIBGBFS) $(LIBADVENCORE)
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -72,22 +68,13 @@ ifneq ($(BUILDDIR), $(CURDIR))
  
 export OUTPUT	:=	$(CURDIR)/$(LIB)/$(TARGET)
  
-export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
-					$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
-					$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir))
+export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
-#BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
-export DATAFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
-
-ifneq ($(strip $(MUSIC)),)
-	export AUDIOFILES	:=	$(foreach dir,$(notdir $(wildcard $(MUSIC)/*.*)),$(CURDIR)/$(MUSIC)/$(dir))
-	BINFILES += soundbank.bin
-endif
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -117,7 +104,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
  
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: $(BUILD) clean release release-clean
+.PHONY: $(BUILD) clean
 
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -128,16 +115,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(LIB) $(TARGET).elf $(TARGET).gba $(TARGET).gbfs $(TARGET).gbfs.gba 
-
-#---------------------------------------------------------------------------------
-release: $(BUILD)
-	@rm -v -r $(RELEASEDIR)/$(VERSION)
-	@mkdir -p -v $(RELEASEDIR)/$(VERSION)/include/adven
-	@mkdir -p -v $(RELEASEDIR)/$(VERSION)/lib
-	@echo Copying $(OUTPUT).a to $(RELEASEDIR)/$(VERSION)/
-	@cp -v -i $(OUTPUT).a $(RELEASEDIR)/$(VERSION)/lib/
-	@cp -v -r -i include/* -t $(RELEASEDIR)/$(VERSION)/include/adven/
+	@rm -fr $(BUILD) $(LIB) 
 
 #---------------------------------------------------------------------------------
 else
@@ -148,37 +126,8 @@ else
 $(OUTPUT).a	:	$(OFILES)
 
 $(OFILES_SOURCES) : $(HFILES)
-
-#---------------------------------------------------------------------------------
-# The bin2o rule should be copied and modified
-# for each extension used in the data directories
-#---------------------------------------------------------------------------------
-
-#---------------------------------------------------------------------------------
-# rule to build soundbank from music files
-#---------------------------------------------------------------------------------
-soundbank.bin soundbank.h : $(AUDIOFILES)
-#---------------------------------------------------------------------------------
-	@mmutil $^ -osoundbank.bin -hsoundbank.h
-
-#---------------------------------------------------------------------------------
-# This rule links in binary data with the .bin extension
-#---------------------------------------------------------------------------------
-%.bin.o	%_bin.h :	%.bin
-#---------------------------------------------------------------------------------
-	@echo $(notdir $<)
-	@$(bin2o)
-
-
  
 -include $(DEPSDIR)/*.d
-
-%.gbfs.gba: %.gba %.gbfs
-	padbin 256 $<
-	cat $^ > $@
-
-%.gbfs: $(DATAFILES)
-	gbfs $@ $^
 #---------------------------------------------------------------------------------------
 endif
 #---------------------------------------------------------------------------------------

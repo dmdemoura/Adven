@@ -1,6 +1,9 @@
 #include "GameObject.hpp"
 #include <algorithm>
 
+using namespace AdvenCore;
+using namespace Adven;
+
 GameObject::GameObject(GameObject* parent) : parent(parent), localPosition({0,0}) {}
 GameObject::GameObject(GameObject* parent, Vector localPosition) : parent(parent), localPosition(localPosition) {}
 void GameObject::Start()

@@ -1,5 +1,8 @@
 #include "RectCollider.hpp"
 
+using namespace AdvenCore;
+using namespace Adven;
+
 bool RectCollider::CheckCollision(const RectCollider& a, const RectCollider& b)
 {
     int a0x = a.GetMinPos().x, a1x = a.GetMaxPos().x;

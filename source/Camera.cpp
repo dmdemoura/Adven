@@ -1,5 +1,8 @@
 #include "Camera.hpp"
 
+using namespace AdvenCore;
+using namespace Adven;
+
 Camera* Camera::instance = nullptr;
 Camera::Camera()
 {

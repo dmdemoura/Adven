@@ -1,6 +1,8 @@
 #include "Scene.hpp"
 #include <algorithm>
 
+using namespace Adven;
+
 Scene* Scene::currentScene = nullptr;
 
 void Scene::Start()

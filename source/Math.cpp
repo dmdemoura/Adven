@@ -1,5 +1,7 @@
 #include "Math.hpp"
 
+using namespace Adven;
+
 int Math::Power(int base, int exp)
 {
     int power = 1;

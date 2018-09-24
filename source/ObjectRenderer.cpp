@@ -1,6 +1,9 @@
 #include "ObjectRenderer.hpp"
 #include "Camera.hpp"
 
+using namespace AdvenCore;
+using namespace Adven;
+
 ObjectRenderer::ObjectRenderer(Sprite* sprite)
 {
     if (sprite)

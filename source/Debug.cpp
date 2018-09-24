@@ -1,5 +1,8 @@
 #include "Debug.hpp"
-#include "Hardware/VBAPrint.hpp"
+#include <advenCore/VBAPrint.hpp>
+
+using namespace AdvenCore;
+using namespace Adven;
 
 void Debug::Log(std::string message)
 {

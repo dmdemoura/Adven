@@ -5,6 +5,8 @@
 #include "Debug.hpp"
 #include <algorithm>
 
+using namespace Adven;
+
 std::forward_list<Collider*> Collider::colliders;
 /*
     Static methods

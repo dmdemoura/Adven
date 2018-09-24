@@ -1,6 +1,9 @@
 #include "Sprite.hpp"
 #include "Debug.hpp"
 
+using namespace AdvenCore;
+using namespace Adven;
+
 Charblock (* const Sprite::ObjectVRAM)[2] = (Charblock(*)[2]) 0x06010000;
 Sprite::FreeBlock* Sprite::firstBlock = nullptr;
 
