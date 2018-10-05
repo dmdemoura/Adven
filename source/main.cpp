@@ -4,6 +4,7 @@
 #include <advenCore/Input.hpp>
 #include "Scene.hpp"
 #include "Collider.hpp"
+#include "GameInit.hpp"
 
 using namespace AdvenCore;
 using namespace Adven;
@@ -14,7 +15,7 @@ int main()
     irq_add(II_VBLANK, NULL);
 
     Object::HideAll();
-    // Scene::LoadScene<TestScene>();
+    GameInit();
     while (true)
     {
         Input::KeyUpdate();
