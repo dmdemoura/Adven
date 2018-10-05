@@ -4,6 +4,19 @@ using namespace AdvenCore;
 using namespace Adven;
 
 Camera* Camera::instance = nullptr;
+/**
+ * Static methods
+ */
+Vector Camera::GetPosition()
+{
+    if (instance)
+        return instance->gameObject->GetWorldPosition() - Vector{120, 80};
+    else
+        return {0,0};
+}
+/**
+ * Instance methods
+ */
 Camera::Camera()
 {
     if (instance)
@@ -14,10 +27,6 @@ Camera::Camera()
 Camera::~Camera()
 {
     instance = nullptr;
-}
-Vector Camera::GetPosition()
-{
-    return instance->gameObject->GetWorldPosition() - Vector{120, 80};
 }
 void Camera::Start() {}
 void Camera::VDrawUpdate() {}

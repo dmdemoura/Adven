@@ -21,29 +21,27 @@ void Collider::Unregister(Collider& collider)
 }
 void Collider::Update()
 {
-    Collider* last = colliders.front();
-    std::for_each(++colliders.begin(), colliders.end(),
-        [&](Collider* current) -> void
+    Collider* last = nullptr;
+    for (auto& collider :  colliders)
+    {
+        if (last && CheckCollision(*collider, *last))
         {
-            if (CheckCollision(*current, *last))
+            Moveable* mc = collider->gameObject->GetComponent<Moveable>();
+            if (mc)
             {
-                Moveable* mc = current->gameObject->GetComponent<Moveable>();
-                if (mc)
-                {
-                    current->gameObject->localPosition -= mc->speed;
-                    mc->speed = -mc->speed;
-                }
-
-                Moveable* ml = last->gameObject->GetComponent<Moveable>();
-                if (ml)
-                {
-                    last->gameObject->localPosition -= ml->speed;
-                    ml->speed = -mc->speed;
-                }
+                collider->gameObject->localPosition -= mc->speed;
+                mc->speed = -mc->speed;
             }
-            last = current;
+
+            Moveable* ml = last->gameObject->GetComponent<Moveable>();
+            if (ml)
+            {
+                last->gameObject->localPosition -= ml->speed;
+                ml->speed = -mc->speed;
+            }
         }
-    );
+        last = collider;
+    }
 }
 bool Collider::CheckCollision(const Collider& a, const Collider& b)
 {
