@@ -43,6 +43,15 @@ Vector GameObject::GetWorldPosition()
 
     return worldPos;
 }
+void GameObject::SetWorldPosition(Vector worldPos)
+{
+    for (GameObject* object = parent; object != nullptr; object=object->parent)
+    {
+        worldPos -= object->localPosition;
+    }
+
+    localPosition = worldPos;
+}
 void GameObject::RemoveComponent(const Component& component)
 {
     auto compare = [&component](const Component& component2)

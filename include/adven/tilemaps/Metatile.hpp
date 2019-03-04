@@ -5,17 +5,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef DM_ADVEN_MATH_HPP
-#define DM_ADVEN_MATH_HPP
+#ifndef DM_ADVEN_TILEMAPS_METATILE_HPP
+#define DM_ADVEN_TILEMAPS_METATILE_HPP
 
-namespace Adven
+#include <array>
+
+namespace Adven::Tilemaps
 {
-    namespace Math
+    template <int width, int height>
+    class Metatile
     {
-        int Power(int base, int exp);
-        int Power2(int exp);
-        int Log2(int number);
-    }
+    private:
+        std::array<std::array<int, height>, width> tileIDs;
+    };
 }
 
 #endif

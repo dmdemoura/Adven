@@ -9,6 +9,7 @@
 #include <advenCore/Backgrounds.hpp>
 #include <advenCore/Object.hpp>
 #include <advenCore/Input.hpp>
+#include "Input.hpp"
 #include "Scene.hpp"
 #include "Collider.hpp"
 #include "GameInit.hpp"
@@ -25,8 +26,9 @@ int main()
     GameInit();
     while (true)
     {
-        Input::KeyUpdate();
-
+        Adven::Input::KeyUpdate();
+        Adven::Input::Update();
+        
         Scene::currentScene->VDrawUpdate();
         Collider::Update();
 

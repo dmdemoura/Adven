@@ -18,3 +18,22 @@ int Math::Power(int base, int exp)
     }
     return power;
 }
+int Math::Power2(int exp)
+{
+    int power = 1;
+    for (int i = 0; i < exp; i++)
+    {
+        power = power << 1;
+    }
+    return power;
+}
+int Math::Log2(int number)
+{
+    int exp;
+    int power = 1;
+    for (exp = 0; power < number; exp++)
+    {
+        power = power << 1;
+    }
+    return exp;
+}

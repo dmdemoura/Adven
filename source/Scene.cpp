@@ -12,6 +12,7 @@ using namespace Adven;
 
 Scene* Scene::currentScene = nullptr;
 
+Scene::~Scene(){}
 void Scene::Start()
 {
     for (GameObject& gameObject : gameObjects)

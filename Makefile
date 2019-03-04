@@ -32,15 +32,15 @@ LIBADVENCORE := /home/gabriel/Files/Code/GBA/AdvenCore
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork
 
-CFLAGS	:=  -g -Wall -O3\
+CFLAGS	:=  -g -Wall -O0\
 		-mcpu=arm7tdmi -mtune=arm7tdmi\
  		-fomit-frame-pointer\
-		-ffast-math -DNO_DEBUG\
+		-ffast-math\
 		$(ARCH)
 
 CFLAGS	+=	$(INCLUDE)
 
-CXXFLAGS	:=	$(CFLAGS) -fno-exceptions --std=c++17
+CXXFLAGS	:=	$(CFLAGS) --std=c++17
 
 ASFLAGS	:=	-g $(ARCH) $(DEFINES)
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map)

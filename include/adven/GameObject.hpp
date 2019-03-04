@@ -36,6 +36,7 @@ namespace Adven
         GameObject(GameObject* parent, AdvenCore::Vector localPosition);
         GameObject* GetParent(); 
         AdvenCore::Vector GetWorldPosition();
+        void SetWorldPosition(AdvenCore::Vector worldPos);
         template<typename T, typename ... Args>
         T& AddComponent(Args&&... args);
         template<typename T>

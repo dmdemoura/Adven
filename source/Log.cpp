@@ -5,17 +5,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef DM_ADVEN_MATH_HPP
-#define DM_ADVEN_MATH_HPP
+#include "Log.hpp"
+#include "LoggingBuffer.hpp"
 
-namespace Adven
-{
-    namespace Math
-    {
-        int Power(int base, int exp);
-        int Power2(int exp);
-        int Log2(int number);
-    }
-}
+using namespace Adven;
 
-#endif
+LoggingBuffer loggingBuffer(20);
+std::ostream Log::Debug(&loggingBuffer);
+std::ostream Log::Warning(&loggingBuffer);
+std::ostream Log::Error(&loggingBuffer);

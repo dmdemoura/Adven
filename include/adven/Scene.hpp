@@ -31,7 +31,7 @@ namespace Adven
     private:
         std::list<GameObject> gameObjects;
     public:
-        virtual ~Scene();
+        virtual ~Scene() = 0;
         virtual void Start() final override;
         virtual void VDrawUpdate() final override;
         virtual void VBlankUpdate() final override;

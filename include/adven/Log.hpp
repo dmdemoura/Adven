@@ -5,17 +5,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef DM_ADVEN_MATH_HPP
-#define DM_ADVEN_MATH_HPP
+#ifndef DM_ADVEN_LOG_HPP
+#define DM_ADVEN_LOG_HPP
+
+#include <ostream>
 
 namespace Adven
 {
-    namespace Math
+    namespace Log
     {
-        int Power(int base, int exp);
-        int Power2(int exp);
-        int Log2(int number);
-    }
+        extern std::ostream Debug;
+        extern std::ostream Warning;
+        extern std::ostream Error;
+    };
 }
 
 #endif

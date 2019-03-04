@@ -12,6 +12,7 @@
 #include "GameObject.hpp"
 #include <advenCore/Vector.hpp>
 
+
 namespace Adven
 {
     class Camera : public Component

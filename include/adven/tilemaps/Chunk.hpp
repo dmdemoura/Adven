@@ -5,17 +5,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef DM_ADVEN_MATH_HPP
-#define DM_ADVEN_MATH_HPP
+#ifndef DM_ADVEN_TILEMAPS_CHUNK_HPP
+#define DM_ADVEN_TILEMAPS_CHUNK_HPP
 
-namespace Adven
+#include <array>
+#include "Cell.hpp"
+
+namespace Adven::Tilemaps
 {
-    namespace Math
+    template <int width, int height>
+    class Chunk
     {
-        int Power(int base, int exp);
-        int Power2(int exp);
-        int Log2(int number);
-    }
+    private:
+        std::array<std::array<Cell, height>, width> cells;
+    };
 }
 
 #endif
