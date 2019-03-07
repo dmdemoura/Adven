@@ -1,0 +1,9 @@
+[submodule "external/libgbfs"]
+	path = external/libgbfs
+	url = https://github.com/dmdemoura/libgbfs.git
+[submodule "external/AdvenCore"]
+	path = external/AdvenCore
+	url = https://github.com/dmdemoura/AdvenCore.git
+[submodule "external/CmakeStuff"]
+	path = external/CmakeStuff
+	url = https://github.com/dmdemoura/CmakeStuff.git
