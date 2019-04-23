@@ -9,15 +9,17 @@
 #define DM_ADVEN_TILEMAPS_CHUNK_HPP
 
 #include <array>
-#include "Cell.hpp"
+#include <advenCore/Vector.hpp>
+#include <advenCore/ScreenEntry.hpp>
 
 namespace Adven::Tilemaps
 {
-    template <int width, int height>
     class Chunk
     {
-    private:
-        std::array<std::array<Cell, height>, width> cells;
+    public:
+        static constexpr int chunkSize = 32;
+        static constexpr int chunkSizeInPowerOf2 = 5;
+        std::array<std::array<AdvenCore::ScreenEntry, chunkSize>, chunkSize> screenEntries;
     };
 }
 

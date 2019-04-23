@@ -12,9 +12,45 @@ namespace Adven
 {
     namespace Math
     {
-        int Power(int base, int exp);
-        int Power2(int exp);
-        int Log2(int number);
+        constexpr int Power(int base, int exp)
+        {
+            int power = 1;
+            for (int i = 0; i < exp; i++)
+            {
+                power *= base;
+            }
+            return power;
+        }
+        constexpr int Power2(int exp)
+        {
+            int power = 1;
+            for (int i = 0; i < exp; i++)
+            {
+                power = power << 1;
+            }
+            return power;
+        }
+        constexpr int Log2(int number)
+        {
+            int exp = 0;
+            int power = 1;
+            for (exp = 0; power < number; exp++)
+            {
+                power = power << 1;
+            }
+            return exp;
+        }
+        template <typename T>
+        constexpr T RoundToNextPowerOf2(T number)
+        {
+            number--;
+            for (int i = 1; i < (sizeof(T) >> 1); i = i << 1)
+            {
+                number |= number >> i;
+            }
+            number++;
+            return number;
+        }
     }
 }
 

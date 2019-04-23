@@ -13,14 +13,12 @@ using namespace Adven;
 
 ObjectRenderer::ObjectRenderer(Sprite* sprite)
 {
-    if (sprite)
-    {
-        SetBaseTile(sprite->GetBaseTile(0));
-        SetColorMode(sprite->GetColorMode());
-        SetSpriteSize(sprite->GetSpriteSize());
-    }
+    if (!sprite) throw std::invalid_argument("ObjectRenderer(): Sprite is null.");
+
+    SetBaseTile(sprite->GetBaseTile(0));
+    SetColorMode(sprite->GetColorMode());
+    SetSpriteSize(sprite->GetSpriteSize());
 }
-ObjectRenderer::~ObjectRenderer(){}
 void ObjectRenderer::Start(){}
 void ObjectRenderer::VDrawUpdate(){}
 void ObjectRenderer::VBlankUpdate()

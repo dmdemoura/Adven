@@ -27,15 +27,12 @@ void Input::Update()
     for (int i = 0; i < KeyCount; i++)
     {
         Key key = IndexToKey(i);
-        // Log::Debug << "Checking " << (int) key << std::endl;
         if (Input::GetKeyDown(key))
         {
-            Log::Debug << "Key Down" << i << std::endl;
             eventSets[i].Pressed.Raise();
         }
         else if (Input::GetKeyUp(key))
         {
-            Log::Debug << "Key Release" << i<< std::endl;
             eventSets[i].Released.Raise();
         }
     }
@@ -45,9 +42,7 @@ Input::EventSet& Input::GetEventSet(Input::Key key)
     int index = KeyToIndex(key);
     if (index >= 0 && index < KeyCount)
     {
-        Log::Debug << "Getting set " << index << "\n";
         return eventSets[(int) index];
-        //----------------------
     }
     else
     {

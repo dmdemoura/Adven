@@ -21,6 +21,7 @@ namespace Adven
     private:
         int_type overflow(int_type c) override;
         int sync() override;
+        void writeToNoCashDebugger();
         void writeToVBAPrint();
         void writeToSRAM();
         void flush();

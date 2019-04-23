@@ -23,14 +23,10 @@ namespace Adven
     public:
         void Subscribe(Listener<T>& listener)
         {
-            Log::Debug << "Subscribed\n";
-            Log::Debug << "Listener qtd: " << listeners.size() << "\n";
             int size = listeners.size();
             listeners.push_back(&listener);
             size = listeners.size();
-            Log::Debug << "Listener qtd: " << listeners.size() << "\n";
             listener.events.push_back(this);
-            Log::Debug << "Listener qtd: " << listeners.size() << "\n";
         }
         void Unsubscribe(Listener<T>* listener)
         {
@@ -40,10 +36,8 @@ namespace Adven
         void Raise(Args&&... args)
         {
             int size = listeners.size();
-            Log::Debug << "Raise -- " << "Listener qtd: " << size << "\n";
             for (auto listener : listeners)
             {
-                Log::Debug << "List\n";
                 listener->function(std::forward<Args>(args)...);
             }
         }

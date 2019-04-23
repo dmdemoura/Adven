@@ -9,6 +9,7 @@
 #include <advenCore/VBAPrint.hpp>
 #include <advenCore/SRAM.hpp>
 #include <cstring>
+#include <tonc.h>
 
 using namespace AdvenCore;
 using namespace Adven;
@@ -37,6 +38,10 @@ int LoggingBuffer::sync()
     flush();
     return 1;
 }
+void LoggingBuffer::writeToNoCashDebugger()
+{
+    nocash_puts((const char*) buffer.data());
+}
 void LoggingBuffer::writeToVBAPrint()
 {
     //VBAPrint(buffer.data());
@@ -48,6 +53,7 @@ void LoggingBuffer::writeToSRAM()
 }
 void LoggingBuffer::flush()
 {
+    writeToNoCashDebugger();
     writeToVBAPrint();
     writeToSRAM();
 

@@ -12,75 +12,7 @@
 using namespace AdvenCore;
 using namespace Adven;
 
-Charblock (* const Sprite::ObjectVRAM)[2] = (Charblock(*)[2]) 0x06010000;
-Sprite::FreeBlock* Sprite::firstBlock = nullptr;
-
-/*
-    Private static methods
-*/
-void Sprite::Init()
-{
-    FreeBlock* lastBlock = nullptr;
-    for (int i = 0; i * MaxAllocationBlockSize < ObjectVRAMSize; i++)
-    {
-        FreeBlock* currentBlock = (FreeBlock*) ((char*) ObjectVRAM + MaxAllocationBlockSize * i);
-
-        currentBlock->blockSize = MaxAllocationBlockSize;
-        currentBlock->previousBlock = lastBlock;
-        currentBlock->nextBlock = nullptr;
-        if (lastBlock)
-            lastBlock->nextBlock = currentBlock;
-
-        lastBlock = currentBlock;
-    }
-    firstBlock = (FreeBlock*) ObjectVRAM;
-}
-Sprite::FreeBlock* Sprite::SplitBlock(FreeBlock* block)
-{
-    block->blockSize = block->blockSize >> 1;
-    FreeBlock* newBlock = (FreeBlock*) ((char*) block + block->blockSize);
-    newBlock->blockSize = block->blockSize;
-    newBlock->previousBlock = block;
-    newBlock->nextBlock = block->nextBlock;
-    block->nextBlock = newBlock;
-    return newBlock;
-}
-Sprite::FreeBlock* Sprite::FindBlock(int blockSize)
-{
-    FreeBlock* currentBlock = firstBlock;
-    while(currentBlock && currentBlock->blockSize != blockSize)
-    {
-        currentBlock = currentBlock->nextBlock;
-    }
-    return currentBlock;
-}
-void* Sprite::AllocSpace(int blockSize)
-{
-    FreeBlock* block = nullptr;
-
-    int increasingBlockSize = blockSize;
-
-    while (block == nullptr && increasingBlockSize <= MaxAllocationBlockSize)
-    {
-        block = FindBlock(increasingBlockSize);
-        increasingBlockSize *= 2;
-    }
-    
-    if (block != nullptr)
-    {
-        while (block->blockSize != blockSize)
-        {
-            SplitBlock(block); 
-        }
-    }
-    block->previousBlock->nextBlock = block->nextBlock;
-    block->nextBlock->previousBlock = block->previousBlock;
-
-    if (block == firstBlock)
-        firstBlock = block->nextBlock;
-
-    return block;
-}
+volatile unsigned short * const Sprite::ObjectVRAM = (volatile unsigned short * const) 0x06000000;
 /*
     Public static methods
 */
@@ -119,8 +51,9 @@ Vector Sprite::SpriteSizeToVector(Object::SpriteSize spriteSize)
 /*
     Public instance methods
 */
-Sprite::Sprite(const char* spriteFilename, const GBFS_FILE* gbfsFile) : Sprite(gbfs_get_obj(gbfsFile, spriteFilename, nullptr)) {}
-Sprite::Sprite(const void* sprite)
+Sprite::Sprite(const char* spriteFilename, const GBFS_FILE* gbfsFile, Adven::Allocator& allocator)
+    : Sprite(gbfs_get_obj(gbfsFile, spriteFilename, nullptr), allocator) {}
+Sprite::Sprite(const void* sprite, Adven::Allocator& allocator) : allocator(allocator)
 {
     header = (Header*) sprite;
     bool valid = true;
@@ -141,14 +74,14 @@ bool Sprite::LoadToVRAM()
 {
     Vector spriteSize = SpriteSizeToVector(header->spriteSize);
 
-    unsigned int blockSize = spriteSize.x * spriteSize.y;
+    unsigned int blockSize = (unsigned int) spriteSize.x * spriteSize.y;
     if (header->colorMode == Object::ColorMode::color4bit)
         blockSize = blockSize >> 1;
 
     vramBaseTiles = new int[header->frameCount];
     for (int i = 0; i < header->frameCount; i++)
     {
-        void* space = AllocSpace(blockSize);
+        void* space = allocator.Allocate(blockSize);
         
         if (space)
         {    

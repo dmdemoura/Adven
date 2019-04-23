@@ -5,18 +5,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef DM_ADVEN_TILEMAPS_METATILE_HPP
-#define DM_ADVEN_TILEMAPS_METATILE_HPP
+#ifndef DM_ADVEN_ALLOCATOR_HPP
+#define DM_ADVEN_ALLOCATOR_HPP
 
-#include <array>
-
-namespace Adven::Tilemaps
+namespace Adven
 {
-    template <int width, int height>
-    class Metatile
+    class Allocator
     {
-    private:
-        std::array<std::array<ScreenEntry, height>, width> tileIDs;
+    public:
+        [[nodiscard]] virtual void* Allocate(std::size_t size) = 0;
+        virtual void Deallocate(void* pointer) = 0;
+        virtual ~Allocator() = default;
     };
 }
 

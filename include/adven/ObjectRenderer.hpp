@@ -20,12 +20,12 @@ namespace Adven
     {
         friend class GameObject;
     private:
-        virtual void Start() override;
-        virtual void VDrawUpdate() override;
-        virtual void VBlankUpdate() override;
+        void Start() override;
+        void VDrawUpdate() override;
+        void VBlankUpdate() override;
     public:
-        ObjectRenderer(Sprite* sprite = nullptr);
-        virtual ~ObjectRenderer();
+        explicit ObjectRenderer(Sprite* sprite = nullptr);
+        ~ObjectRenderer() override = default;
     };
 }
 

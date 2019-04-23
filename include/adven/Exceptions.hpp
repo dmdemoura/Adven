@@ -5,20 +5,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef DM_ADVEN_TILEMAPS_CELL_HPP
-#define DM_ADVEN_TILEMAPS_CELL_HPP
+#ifndef DM_ADVEN_EXCEPTIONS_HPP
+#define DM_ADVEN_EXCEPTIONS_HPP
 
-#include "Metatile.hpp"
+#include <stdexcept>
 
-namespace Adven::Tilemaps
+namespace Adven
 {
-    template <int width, int height>
-    class Cell
+    class NotImplementedException : public std::logic_error
     {
-    private:
-        Metatile<width,height>* metaTile;
     public:
-        Metatile<width,height>* getMetaTile();
+        NotImplementedException();
     };
 }
 

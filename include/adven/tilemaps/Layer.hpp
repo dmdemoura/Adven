@@ -16,8 +16,16 @@ namespace Adven::Tilemaps
     template <int width, int height>
     class Layer
     {
-    private:
+    public:
         std::array<std::array<Chunk, height>, width> chunks;
+    public:
+        AdvenCore::ScreenEntry& GetScreenEntry(AdvenCore::Vector position)
+        {
+            AdvenCore::Vector chunkIndex = position >> Chunk::chunkSizeInPowerOf2;
+            AdvenCore::Vector chunkPosition = position - (chunkIndex << Chunk::chunkSizeInPowerOf2);
+
+            return chunks[chunkIndex.x][chunkIndex.y].screenEntries[chunkPosition.x][chunkPosition.y];
+        }
     };
 }
 

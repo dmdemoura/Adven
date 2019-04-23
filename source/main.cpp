@@ -19,22 +19,29 @@ using namespace Adven;
 
 int main()
 {
-    irq_init(NULL);
-    irq_add(II_VBLANK, NULL);
-
-    Object::HideAll();
-    GameInit();
-    while (true)
+    try
     {
-        Adven::Input::KeyUpdate();
-        Adven::Input::Update();
-        
-        Scene::currentScene->VDrawUpdate();
-        Collider::Update();
+        irq_init(NULL);
+        irq_add(II_VBLANK, NULL);
 
-        VBlankIntrWait();
+        Object::HideAll();
+        GameInit();
+        while (true)
+        {
+            Adven::Input::KeyUpdate();
+            Adven::Input::Update();
 
-        Scene::currentScene->VBlankUpdate();
-        Object::Render();
+            Scene::currentScene->VDrawUpdate();
+            Collider::Update();
+
+            VBlankIntrWait();
+
+            Scene::currentScene->VBlankUpdate();
+            Object::Render();
+        }
+    }
+    catch(std::exception& e)
+    {
+        Log::Debug << "ERROR at main(): Unhandled exception: " << e.what() << std::endl;
     }
 }
